@@ -1,0 +1,75 @@
+College-Start
+College of Computer Science and Technology
+Class-Start
+1901
+Student-Start
+3190000001
+Amy Wang
+0
+College of Computer Science and Technology
+1901
+Student-End
+Student-Start
+3190000002
+Jack Chen
+1
+College of Computer Science and Technology
+1901
+Student-End
+Student-Start
+3190000003
+Ken Lin
+1
+College of Computer Science and Technology
+1901
+Student-End
+Class-End
+Class-Start
+1902
+Student-Start
+3190000004
+Linda Wang
+0
+College of Computer Science and Technology
+1902
+Student-End
+Student-Start
+3190000005
+Eric Chen
+1
+College of Computer Science and Technology
+1902
+Student-End
+Student-Start
+3190000006
+Jobs Lin
+1
+College of Computer Science and Technology
+1902
+Student-End
+Class-End
+Class-Start
+1903
+Student-Start
+3190000007
+Darlin Wang
+0
+College of Computer Science and Technology
+1903
+Student-End
+Student-Start
+3190000008
+Paul Chen
+1
+College of Computer Science and Technology
+1903
+Student-End
+Student-Start
+3190000009
+Anna Lin
+0
+College of Computer Science and Technology
+1903
+Student-End
+Class-End
+College-End
