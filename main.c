@@ -1,5 +1,6 @@
 #include "data.h"
 #include "general.h"
+#include "md5.h"
 
 int main() {
     // Step1. Read data in file "data.txt"
@@ -10,24 +11,26 @@ int main() {
     struct College *data = getCollegeData();
     fclose(fp);
 
-    // Step2. Find student 3190000003, change his name to "Kenny Lin"
-
-    struct Class_node *curr_cla = data->classes;
-    while (curr_cla != NULL) {
-        struct Student_node *curr_stu = curr_cla->data->students;
-        while (curr_stu != NULL) {
-            if (strcmp(curr_stu->data->schoolnumber, "3190000003") == 0)
-                curr_stu->data->name = "Kenny Lin";
-            curr_stu = curr_stu->next;
-        }
-        curr_cla = curr_cla->next;
+    printf("本学院目前受理的学生申请事项如下: \n");
+    struct Application_node *curr_app = data->applications;
+    while (curr_app != NULL) {
+        struct Application *app = curr_app->data;
+        printf("学生 %s 申请了 %s , 目前状态为 %s\n", app->schoolnumber, app->title, app->status);
+        curr_app = curr_app->next;
     }
 
-    // Step3. Export data to "newdata.txt"
+    // Example usage of checkpassword()
+    printf("\n");
+    if (checkPassword("3190000001", "password"))
+        printf("3190000001 的密码是 password 没错!\n");
+    else
+        printf("3190000001 的密码不是 password， 或是这个学生不存在于这个学院!\n");
 
-    fp = fopen("newdata.txt", "w");
-    exportCollegeData(fp);
-    fclose(fp);
+    printf("\n");
+    if (checkPassword("3190000001", "wrong_password"))
+        printf("3190000001 的密码是 wrong_password 没错!\n");
+    else
+        printf("3190000001 的密码不是 wrong_password 或是这个学生不存在于这个学院!\n");
 
     return 0;
 }
