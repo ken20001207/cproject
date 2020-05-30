@@ -185,13 +185,29 @@ Homework Week2
 Score-End
 Course-End
 Application-Start
+Scholarship
+GPA higher than 4.0
+4
 3190000001
-Back to School
+Rejected
+3190000003
 Accepted
+3190000004
+Rejected
+3190000007
+Rejected
 Application-End
 Application-Start
+Back to school
+Have done the Nucleic Acid Testing of Covid-19
+4
+3190000002
+Accepted
 3190000003
-Scholarship
+Accepted
+3190000005
 Rejected
+3190000008
+Accepted
 Application-End
 College-End

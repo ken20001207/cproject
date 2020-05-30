@@ -94,12 +94,16 @@ struct Class_node {
 
 // Application Object
 struct Application {
-    // school number of who created this application
-    char *schoolnumber;
     // Title of this application
     char *title;
-    // Status of this application
-    char *status;
+    // number of students who submit this application
+    int student_num;
+    // students who submit this application
+    char **applicants;
+    // statuses of applications
+    char **statuses;
+    // requierment of this application
+    char *requirement;
 };
 
 struct Application_node {

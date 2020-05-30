@@ -160,18 +160,37 @@ int readData(FILE *fp) {
         } else if (strcmp("Application-Start\n", line_buf) == 0) {
             struct Application *newApplication = malloc(sizeof(struct Application));
 
-            // load student number who send this application
-            line_size = getline(&(newApplication->schoolnumber), &line_buf_size, fp);
-            newApplication->schoolnumber[strlen(newApplication->schoolnumber) - 1] = '\0';
-
             // load title of this application
             line_size = getline(&(newApplication->title), &line_buf_size, fp);
             newApplication->title[strlen(newApplication->title) - 1] = '\0';
 
-            // load status of this application
-            line_size = getline(&(newApplication->status), &line_buf_size, fp);
-            newApplication->status[strlen(newApplication->status) - 1] = '\0';
+            // load requirement of this application
+            line_size = getline(&(newApplication->requirement), &line_buf_size, fp);
+            newApplication->requirement[strlen(newApplication->requirement) - 1] = '\0';
 
+            // get number of applicants of this application
+            char *students_num_string = NULL;
+            line_size = getline(&students_num_string, &line_buf_size, fp);
+            int students_num = atoi(students_num_string);
+            newApplication->student_num = students_num;
+
+            // loop to get all applicants school number and status
+            char **applicants = malloc(students_num * (sizeof(char *)));
+            char **statuses = malloc(students_num * (sizeof(char *)));
+            int i = 0;
+            for (i = 0; i < students_num; i++) {
+                line_size = getline(&(applicants[i]), &line_buf_size, fp);
+                applicants[i][strlen(applicants[i]) - 1] = '\0';
+
+                line_size = getline(&(statuses[i]), &line_buf_size, fp);
+                statuses[i][strlen(statuses[i]) - 1] = '\0';
+            }
+
+            // save to newApplication
+            newApplication->applicants = applicants;
+            newApplication->statuses = statuses;
+
+            // insert into application list
             struct Application_node *app_node = malloc(sizeof(struct Application_node));
             app_node->data = newApplication;
 
