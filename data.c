@@ -5,6 +5,14 @@
 #include "general.h"
 #include "md5.h"
 
+// Read File By line and remove '\n'
+char *getStringFromNewLine(FILE *fp) {
+    char *bufline = malloc(1024 * sizeof(char));
+    bufline = fgets(bufline, 1024, fp);
+    bufline[strlen(bufline) - 1] = '\0';
+    return bufline;
+}
+
 struct College *college = NULL;
 
 // Read data from file and store into program
@@ -14,58 +22,49 @@ struct College *college = NULL;
 int readData(FILE *fp) {
     if (fp == NULL) return 0;
 
-    char *line_buf = NULL;
-    size_t line_buf_size = 0;
-    int line_count = 0;
-    ssize_t line_size;
-
     struct College *newCollege = malloc(sizeof(struct College));
+    newCollege->applications = NULL;
+    newCollege->classes = NULL;
+    newCollege->courses = NULL;
+
     struct Class *tempClass = NULL;
     struct Course *tempCourse = NULL;
+    char *bufline = malloc(sizeof(char));
 
-    line_size = getline(&line_buf, &line_buf_size, fp);
+    while (1) {
+        bufline = getStringFromNewLine(fp);
 
-    while (line_size >= 0) {
-        line_count++;
-        if (strcmp("College-Start\n", line_buf) == 0) {
+        if (strcmp("College-Start", bufline) == 0) {
             // load college name
-            line_size = getline(&(newCollege->name), &line_buf_size, fp);
-            newCollege->name[strlen(newCollege->name) - 1] = '\0';
+            newCollege->name = getStringFromNewLine(fp);
 
-        } else if (strcmp("Class-Start\n", line_buf) == 0) {
+        } else if (strcmp("Class-Start", bufline) == 0) {
             tempClass = malloc(sizeof(struct Class));
+            tempClass->students = NULL;
 
             // load class id
-            line_size = getline(&(tempClass->ClassID), &line_buf_size, fp);
-            tempClass->ClassID[strlen(tempClass->ClassID) - 1] = '\0';
+            tempClass->ClassID = getStringFromNewLine(fp);
 
-        } else if (strcmp("Student-Start\n", line_buf) == 0) {
+        } else if (strcmp("Student-Start", bufline) == 0) {
             struct Student *tempStudent = malloc(sizeof(struct Student));
 
             // load student school number
-            line_size = getline(&(tempStudent->schoolnumber), &line_buf_size, fp);
-            tempStudent->schoolnumber[strlen(tempStudent->schoolnumber) - 1] = '\0';
+            tempStudent->schoolnumber = getStringFromNewLine(fp);
 
             // load student name
-            line_size = getline(&(tempStudent->name), &line_buf_size, fp);
-            tempStudent->name[strlen(tempStudent->name) - 1] = '\0';
+            tempStudent->name = getStringFromNewLine(fp);
 
             // load student gender
-            char *gender_char = NULL;
-            line_size = getline(&gender_char, &line_buf_size, fp);
-            tempStudent->gender = gender_char[0] - '0';
+            tempStudent->gender = atoi(getStringFromNewLine(fp));
 
             // load student collge
-            line_size = getline(&(tempStudent->college), &line_buf_size, fp);
-            tempStudent->college[strlen(tempStudent->college) - 1] = '\0';
+            tempStudent->college = getStringFromNewLine(fp);
 
             // load student class id
-            line_size = getline(&(tempStudent->class), &line_buf_size, fp);
-            tempStudent->class[strlen(tempStudent->class) - 1] = '\0';
+            tempStudent->hisclass = getStringFromNewLine(fp);
 
             // load md5 password of student
-            line_size = getline(&(tempStudent->md5), &line_buf_size, fp);
-            tempStudent->md5[strlen(tempStudent->md5) - 1] = '\0';
+            tempStudent->md5 = getStringFromNewLine(fp);
 
             // create a new student node
             struct Student_node *stu_node = malloc(sizeof(struct Student_node));
@@ -79,7 +78,7 @@ int readData(FILE *fp) {
                 stu_node->next = tempClass->students;
                 tempClass->students = stu_node;
             }
-        } else if (strcmp("Class-End\n", line_buf) == 0) {
+        } else if (strcmp("Class-End", bufline) == 0) {
             struct Class_node *cla_node = malloc(sizeof(struct Class_node));
             cla_node->data = tempClass;
 
@@ -90,50 +89,40 @@ int readData(FILE *fp) {
                 cla_node->next = newCollege->classes;
                 newCollege->classes = cla_node;
             }
-        } else if (strcmp("College-End", line_buf) == 0) {
-            college = newCollege;
-        } else if (strcmp("Course-Start\n", line_buf) == 0) {
+        } else if (strcmp("Course-Start", bufline) == 0) {
             tempCourse = malloc(sizeof(struct Course));
+            tempCourse->scores = NULL;
 
             // load course code
-            line_size = getline(&(tempCourse->code), &line_buf_size, fp);
-            tempCourse->code[strlen(tempCourse->code) - 1] = '\0';
+            tempCourse->code = getStringFromNewLine(fp);
 
             // load course name
-            line_size = getline(&(tempCourse->name), &line_buf_size, fp);
-            tempCourse->name[strlen(tempCourse->name) - 1] = '\0';
-        } else if (strcmp("Students-Start\n", line_buf) == 0) {
+            tempCourse->name = getStringFromNewLine(fp);
+
+        } else if (strcmp("Students-Start", bufline) == 0) {
             // get number of students in this course
-            char *students_num_string = NULL;
-            line_size = getline(&students_num_string, &line_buf_size, fp);
-            int students_num = atoi(students_num_string);
-            tempCourse->student_num = students_num;
+            tempCourse->student_num = atoi(getStringFromNewLine(fp));
 
             // loop to get all student school number
-            char **students = malloc(students_num * (sizeof(char *)));
+            char **students = malloc(tempCourse->student_num * (sizeof(char *)));
             int i = 0;
-            for (i = 0; i < students_num; i++) {
-                line_size = getline(&(students[i]), &line_buf_size, fp);
-                students[i][strlen(students[i]) - 1] = '\0';
+            for (i = 0; i < tempCourse->student_num; i++) {
+                students[i] = getStringFromNewLine(fp);
             }
 
             // save to tempcourse
             tempCourse->students = students;
-        } else if (strcmp("Score-Start\n", line_buf) == 0) {
+        } else if (strcmp("Score-Start", bufline) == 0) {
             struct Score *newscore = malloc(sizeof(struct Score));
 
             // load student number of score
-            line_size = getline(&(newscore->schoolnumber), &line_buf_size, fp);
-            newscore->schoolnumber[strlen(newscore->schoolnumber) - 1] = '\0';
+            newscore->schoolnumber = getStringFromNewLine(fp);
 
             // load score title
-            line_size = getline(&(newscore->title), &line_buf_size, fp);
-            newscore->title[strlen(newscore->title) - 1] = '\0';
+            newscore->title = getStringFromNewLine(fp);
 
             // load score
-            char *score_string = NULL;
-            line_size = getline(&(score_string), &line_buf_size, fp);
-            newscore->score = atoi(score_string);
+            newscore->score = atoi(getStringFromNewLine(fp));
 
             // create new score node
             struct Score_node *score_node = malloc(sizeof(struct Score_node));
@@ -147,7 +136,7 @@ int readData(FILE *fp) {
                 score_node->next = tempCourse->scores;
                 tempCourse->scores = score_node;
             }
-        } else if (strcmp("Course-End\n", line_buf) == 0) {
+        } else if (strcmp("Course-End", bufline) == 0) {
             struct Course_node *cou_node = malloc(sizeof(struct Course_node));
             cou_node->data = tempCourse;
             if (newCollege->courses == NULL) {
@@ -157,33 +146,25 @@ int readData(FILE *fp) {
                 cou_node->next = newCollege->courses;
                 newCollege->courses = cou_node;
             }
-        } else if (strcmp("Application-Start\n", line_buf) == 0) {
+        } else if (strcmp("Application-Start", bufline) == 0) {
             struct Application *newApplication = malloc(sizeof(struct Application));
 
             // load title of this application
-            line_size = getline(&(newApplication->title), &line_buf_size, fp);
-            newApplication->title[strlen(newApplication->title) - 1] = '\0';
+            newApplication->title = getStringFromNewLine(fp);
 
             // load requirement of this application
-            line_size = getline(&(newApplication->requirement), &line_buf_size, fp);
-            newApplication->requirement[strlen(newApplication->requirement) - 1] = '\0';
+            newApplication->requirement = getStringFromNewLine(fp);
 
             // get number of applicants of this application
-            char *students_num_string = NULL;
-            line_size = getline(&students_num_string, &line_buf_size, fp);
-            int students_num = atoi(students_num_string);
-            newApplication->student_num = students_num;
+            newApplication->student_num = atoi(getStringFromNewLine(fp));
 
             // loop to get all applicants school number and status
-            char **applicants = malloc(students_num * (sizeof(char *)));
-            char **statuses = malloc(students_num * (sizeof(char *)));
+            char **applicants = malloc(newApplication->student_num * (sizeof(char *)));
+            char **statuses = malloc(newApplication->student_num * (sizeof(char *)));
             int i = 0;
-            for (i = 0; i < students_num; i++) {
-                line_size = getline(&(applicants[i]), &line_buf_size, fp);
-                applicants[i][strlen(applicants[i]) - 1] = '\0';
-
-                line_size = getline(&(statuses[i]), &line_buf_size, fp);
-                statuses[i][strlen(statuses[i]) - 1] = '\0';
+            for (i = 0; i < newApplication->student_num; i++) {
+                applicants[i] = getStringFromNewLine(fp);
+                statuses[i] = getStringFromNewLine(fp);
             }
 
             // save to newApplication
@@ -201,11 +182,19 @@ int readData(FILE *fp) {
                 app_node->next = newCollege->applications;
                 newCollege->applications = app_node;
             }
+        } else if (strcmp("College-End", bufline) == 0) {
+            college = newCollege;
+            return 1;
         }
-
-        line_size = getline(&line_buf, &line_buf_size, fp);
     }
-    return 1;
+    return 0;
+}
+
+// Create an new collge object
+void newCollege(char *name) {
+    struct College *newCollege = malloc(sizeof(struct College));
+    newCollege->name = name;
+    college = newCollege;
 }
 
 // Check if password of stuedent is correct
@@ -243,7 +232,8 @@ int exportCollegeData(FILE *fp) {
             fprintf(fp, "%s\n", curr_stu->data->name);
             fprintf(fp, "%d\n", curr_stu->data->gender);
             fprintf(fp, "%s\n", curr_stu->data->college);
-            fprintf(fp, "%s\n", curr_stu->data->class);
+            fprintf(fp, "%s\n", curr_stu->data->hisclass);
+            fprintf(fp, "%s\n", curr_stu->data->md5);
             fprintf(fp, "Student-End\n");
             curr_stu = curr_stu->next;
         }
@@ -280,7 +270,22 @@ int exportCollegeData(FILE *fp) {
         curr_cou = curr_cou->next;
     }
 
-    fprintf(fp, "College-End");
+    struct Application_node *curr_app = college->applications;
+    while (curr_app != NULL) {
+        fprintf(fp, "Application-Start\n");
+        fprintf(fp, "%s\n", curr_app->data->title);
+        fprintf(fp, "%s\n", curr_app->data->requirement);
+        fprintf(fp, "%d\n", curr_app->data->student_num);
+        int i = 0;
+        for (i = 0; i < curr_app->data->student_num; i++) {
+            fprintf(fp, "%s\n", curr_app->data->applicants[i]);
+            fprintf(fp, "%s\n", curr_app->data->statuses[i]);
+        }
+        fprintf(fp, "Application-End\n");
+        curr_app = curr_app->next;
+    }
+
+    fprintf(fp, "College-End\n");
     return 1;
 }
 
