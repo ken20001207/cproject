@@ -160,7 +160,7 @@ int md5check(char *origin_string, char *md5_string) {
     MD5Update(&md5, origin_string, strlen((char *)origin_string));
     MD5Final(&md5, decrypt);
     char md5string[33];
-    for (int i = 0; i < 16; ++i)
+    for (i = 0; i < 16; ++i)
         sprintf(&md5string[i * 2], "%02x", (unsigned int)decrypt[i]);
 
     if (strcmp(md5string, md5_string) == 0)
