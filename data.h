@@ -59,7 +59,7 @@ struct Student {
     // Name of the college this student belongs to
     char *college;
     // Id of the class this student belongs to
-    char *class;
+    char *hisclass;
     // md5 password of student
     char *md5;
 };
@@ -161,5 +161,8 @@ struct Course *getCourseByCode(char *course_code);
 
 // check password of student is correct
 int checkPassword(char *schoolnumber, char *password);
+
+// Create new college object
+void newCollege(char *name);
 
 #endif
