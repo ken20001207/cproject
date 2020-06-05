@@ -1,10 +1,9 @@
-#include "coll.h"
-
-#include "data.h"
 #include "general.h"
+#include "data.h"
+#include "coll.h"
 #include "total.h"
 
-int coll_creat_clas(struct College *op, char *classid) {  //创建班级
+int coll_creat_clas(struct College *op, char *classid) {  //�����༶
     static struct Class_node *cpn;
     cpn = (struct Class_node *)malloc(sizeof(struct Class_node));
     struct Class_node *theclasses;
@@ -26,12 +25,10 @@ int coll_creat_clas(struct College *op, char *classid) {  //创建班级
         cpn->prev = theclasses;
         cpn->next = NULL;
     }
-    return 0;  //表示成功
+    return 0;  //��ʾ�ɹ�
 }
-/*
 
-*/
-int coll_delete_clas(struct College *op, char *classid) {  //删除班级
+int coll_delete_clas(struct College *op, char *classid) {  //ɾ���༶
     struct Class_node *cpn;
     cpn = op->classes;
     if (cpn == NULL)
@@ -39,7 +36,7 @@ int coll_delete_clas(struct College *op, char *classid) {  //删除班级
     else if (!strcmp(cpn->data->ClassID, classid)) {
         cpn->next->prev = NULL;
         op->classes = cpn->next;
-        return 0;  //表示成功
+        return 0;  //��ʾ�ɹ�
     } else {
         while (cpn->next != NULL) {
             if (!strcmp(cpn->next->data->ClassID, classid)) {
@@ -53,7 +50,8 @@ int coll_delete_clas(struct College *op, char *classid) {  //删除班级
     }
 }
 
-int coll_event_creat(struct College *op, char *thetitle, char *therequirement) {  //创建事项
+int coll_event_creat(struct College *op, char *thetitle,
+                     char *therequirement) {  //��������
     static struct Application_node *apn;
     struct Application_node *theapplication;
     apn = (struct Application_node *)malloc(sizeof(struct Application_node));
@@ -78,15 +76,16 @@ int coll_event_creat(struct College *op, char *thetitle, char *therequirement) {
         apn->prev = NULL;
         apn->next = NULL;
     } else {
-        while (theapplication->next != NULL) theapplication = theapplication->next;
+        while (theapplication->next != NULL)
+            theapplication = theapplication->next;
         theapplication->next = apn;
         apn->prev = theapplication;
         apn->next = NULL;
     }
-    return 0;  //表示成功
+    return 0;  //��ʾ�ɹ�
 }
 
-int coll_event_delete(struct College *op, char *thetitle) {  //删除事项
+int coll_event_delete(struct College *op, char *thetitle) {  //ɾ������
     struct Application_node *apn;
     apn = op->applications;
     if (apn == NULL)
@@ -100,30 +99,32 @@ int coll_event_delete(struct College *op, char *thetitle) {  //删除事项
             if (!strcmp(apn->data->title, thetitle)) {
                 apn->next = apn->next->next;
                 apn->next->prev = apn;
-                return 0;  //表示成功
+                return 0;  //��ʾ�ɹ�
             }
             apn = apn->next;
         }
-        if (apn->next == NULL) return 1;  //表示失败
+        if (apn->next == NULL) return 1;  //��ʾʧ��
     }
 }
 
-int coll_event_exam(struct Application *ap, char *studentnumber, int thestatues) {  //批准/拒绝同学 thestatues如果是1代表通过（用按钮决定吧
+int coll_event_exam(struct Application *ap, char *studentnumber,
+                    int thestatues) {  //ѧԺ��������ͬѧ
     int i;
     for (i = 0; i < ap->student_num; i++) {
-        if (!strcmp(ap->applicants[i], studentnumber) && !strcmp(ap->statuses[i], "class_passed")) {
-            if (thestatues == 1) {
+        if (!strcmp(ap->applicants[i], studentnumber) &&
+            !strcmp(ap->statuses[i], "class_passed")) {
+            if (thestatues == 1) {  // 1����ͨ��
                 strcpy(ap->statuses[i], "college_passed");
             } else if (thestatues == 0) {
                 strcpy(ap->statuses[i], "college_rejected");
             }
-            return 0;  //代表失败
+            return 0;  //����ʧ��
         }
     }
-    return 1;  //代表失败
+    return 1;  //����ʧ��
 }
 
-int coll_course_creat(struct College *op, char *codes, char *names, int studentnumber) {  //创建课程
+int coll_course_creat(struct College *op, char *codes, char *names) {  //�����γ�
     static struct Course_node *upn;
     struct Course_node *thecourses;
     thecourses = op->courses;
@@ -136,7 +137,7 @@ int coll_course_creat(struct College *op, char *codes, char *names, int studentn
     static char thenames[20];
     strcpy(thenames, names);
     up->name = thenames;
-    up->student_num = studentnumber;
+    up->student_num = 0;
     up->scores = NULL;
     static char *thestudents[200];
     up->students = thestudents;
@@ -151,39 +152,20 @@ int coll_course_creat(struct College *op, char *codes, char *names, int studentn
         thecourses = thecourses->next;
         thecourses->next = NULL;
     }
-    return 0;  //代表成功
+    return 0;  //�����ɹ�
 }
 
-int coll_course_creat_stud(struct Course *up, int i, char *studentnumber) {  //录入课程名单
-    static char thestudentnumber[20], rpschoolnumber[20];
+int coll_course_creat_stud(struct Course *up,
+                           char *studentnumber) {  //录入课程名单
+    char *thestudentnumber;
+    thestudentnumber = (char *)malloc(20);
     strcpy(thestudentnumber, studentnumber);
-    strcpy(rpschoolnumber, studentnumber);
-    up->students[i] = thestudentnumber;
-    static struct Score_node *rpn;
-    struct Score_node *thescore;
-    thescore = up->scores;
-    rpn = (struct Score_node *)malloc(sizeof(struct Score_node));
-    static struct Score *rp;
-    rp = (struct Score *)malloc(sizeof(struct Score));
-    rpn->data = rp;
-    rp->schoolnumber = rpschoolnumber;
-    static char rptitle[20];
-    strcpy(rptitle, up->name);
-    rp->title = rptitle;
-    rp->score = -1;
-    if (thescore == NULL) {
-        thescore = rpn;
-        thescore->prev = NULL;
-        thescore->next = NULL;
-    } else {
-        rpn->prev = thescore;
-        thescore->next = rpn;
-        thescore = thescore->next;
-        thescore->next = NULL;
-    }
+    up->students[up->student_num] = thestudentnumber;
+    up->student_num++;
     return 0;
 }
-int coll_course_delete(struct College *op, char *codes) {  //删除课程
+
+int coll_course_delete(struct College *op, char *codes) {  //ɾ���γ�
     struct Course_node *upn;
     upn = op->courses;
     if (upn == NULL)

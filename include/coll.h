@@ -1,20 +1,20 @@
 #ifndef _COLL_H
 #define _COLL_H
 
-int coll_creat_clas(struct College *op, char *classid);  //åˆ›å»ºç­çº§
+int coll_creat_clas(struct College *op,char *classid);//´´½¨°à¼¶
 
-int coll_delete_clas(struct College *op, char *classid);  //åˆ é™¤ç­çº§
+int coll_delete_clas(struct College *op,char *classid);//É¾³ı°à¼¶
 
-int coll_event_creat(struct College *op, char *thetitle, char *therequirement);  //åˆ›å»ºäº‹é¡¹
+int coll_event_creat(struct College *op,char *thetitle,char *therequirement);//´´½¨ÊÂÏî
 
-int coll_event_delete(struct College *op, char *thetitle);  //åˆ é™¤äº‹é¡¹
+int coll_event_delete(struct College *op,char *thetitle);//É¾³ıÊÂÏî
 
-int coll_event_exam(struct Application *ap, char *studentnumber, int thestatues);  //æ‰¹å‡†/æ‹’ç»åŒå­¦ï¼ˆå­¦é™¢å±‚é¢
+int coll_event_exam(struct Application *ap,char *studentnumber,int thestatues);//Ñ§Ôº²ãÃæÉóÅúÍ¬Ñ§
 
-int coll_course_creat(struct College *op, char *codes, char *names, int studentnumber);  //åˆ›å»ºè¯¾ç¨‹
+int coll_course_creat(struct College *op,char *codes,char *names);//´´½¨¿Î³Ì 
 
-int coll_course_creat_stud(struct Course *up, int i, char *studentnumber);  //å½•å…¥è¯¾ç¨‹åå•
+int coll_course_creat_stud(struct Course *up,char *studentnumber);//Â¼Èë¿Î³ÌÃûµ¥ 
 
-int coll_course_delete(struct College *op, char *codes);  //åˆ é™¤è¯¾ç¨‹
+int coll_course_delete(struct College *op,char *codes);//É¾³ı¿Î³Ì
 
 #endif

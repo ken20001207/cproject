@@ -159,10 +159,15 @@ struct Class *getClassByID(char *class_id);
 // get Course data by course code
 struct Course *getCourseByCode(char *course_code);
 
+// get Application data by title
+struct Application *getApplicationByName(char *name);
+
 // check password of student is correct
 int checkPassword(char *schoolnumber, char *password);
 
 // Create new college object
 void newCollege(char *name);
+
+int isSubmitApplication(char *application_name, char *school_number);
 
 #endif

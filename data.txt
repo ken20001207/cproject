@@ -1,64 +1,10 @@
 College-Start
 College of Computer Science and Technology
 Class-Start
-1901
-Student-Start
-3190000001
-Amy Wang
-0
-College of Computer Science and Technology
-1901
-5f4dcc3b5aa765d61d8327deb882cf99
-Student-End
-Student-Start
-3190000002
-Jack Chen
-1
-College of Computer Science and Technology
-1901
-5f4dcc3b5aa765d61d8327deb882cf99
-Student-End
-Student-Start
-3190000003
-Ken Lin
-1
-College of Computer Science and Technology
-1901
-5f4dcc3b5aa765d61d8327deb882cf99
-Student-End
-Class-End
-Class-Start
-1902
-Student-Start
-3190000004
-Linda Wang
-0
-College of Computer Science and Technology
-1902
-5f4dcc3b5aa765d61d8327deb882cf99
-Student-End
-Student-Start
-3190000005
-Eric Chen
-1
-College of Computer Science and Technology
-1902
-5f4dcc3b5aa765d61d8327deb882cf99
-Student-End
-Student-Start
-3190000006
-Jobs Lin
-1
-College of Computer Science and Technology
-1902
-5f4dcc3b5aa765d61d8327deb882cf99
-Student-End
-Class-End
-Class-Start
 1903
 Student-Start
-3190000007
-Darlin Wang
+3190000009
+Anna Lin
 0
 College of Computer Science and Technology
 1903
@@ -73,65 +19,68 @@ College of Computer Science and Technology
 5f4dcc3b5aa765d61d8327deb882cf99
 Student-End
 Student-Start
-3190000009
-Anna Lin
+3190000007
+Darlin Wang
 0
 College of Computer Science and Technology
 1903
 5f4dcc3b5aa765d61d8327deb882cf99
 Student-End
 Class-End
-Course-Start
-FH88591
-C Program Development
-Students-Start
-4
-3190000001
-3190000002
-3190000003
+Class-Start
+1902
+Student-Start
+3190000006
+Jobs Lin
+1
+College of Computer Science and Technology
+1902
+5f4dcc3b5aa765d61d8327deb882cf99
+Student-End
+Student-Start
+3190000005
+Eric Chen
+1
+College of Computer Science and Technology
+1902
+5f4dcc3b5aa765d61d8327deb882cf99
+Student-End
+Student-Start
 3190000004
-Students-End
-Score-Start
-3190000001
-Quiz 1
-89
-Score-End
-Score-Start
-3190000002
-Quiz 1
-69
-Score-End
-Score-Start
+Linda Wang
+0
+College of Computer Science and Technology
+1902
+5f4dcc3b5aa765d61d8327deb882cf99
+Student-End
+Class-End
+Class-Start
+1901
+Student-Start
 3190000003
-Quiz 1
-77
-Score-End
-Score-Start
-3190000004
-Quiz 1
-86
-Score-End
-Score-Start
-3190000001
-Quiz 2
-86
-Score-End
-Score-Start
+Ken Lin
+1
+College of Computer Science and Technology
+1901
+5f4dcc3b5aa765d61d8327deb882cf99
+Student-End
+Student-Start
 3190000002
-Quiz 2
-77
-Score-End
-Score-Start
-3190000003
-Quiz 2
-92
-Score-End
-Score-Start
-3190000004
-Quiz 2
-98
-Score-End
-Course-End
+Jack Chen
+1
+College of Computer Science and Technology
+1901
+5f4dcc3b5aa765d61d8327deb882cf99
+Student-End
+Student-Start
+3190000001
+Amy Wang
+0
+College of Computer Science and Technology
+1901
+c4ca4238a0b923820dcc509a6f75849b
+Student-End
+Class-End
 Course-Start
 FW87265
 Discrete Math and Application
@@ -144,34 +93,9 @@ Students-Start
 3190000008
 Students-End
 Score-Start
-3190000002
-Homework Week1
-89
-Score-End
-Score-Start
-3190000005
-Homework Week1
-69
-Score-End
-Score-Start
-3190000006
-Homework Week1
-77
-Score-End
-Score-Start
-3190000008
-Homework Week1
-86
-Score-End
-Score-Start
-3190000002
+3190000007
 Homework Week2
-86
-Score-End
-Score-Start
-3190000005
-Homework Week2
-77
+98
 Score-End
 Score-Start
 3190000006
@@ -179,24 +103,92 @@ Homework Week2
 92
 Score-End
 Score-Start
-3190000007
+3190000005
 Homework Week2
-98
+77
+Score-End
+Score-Start
+3190000002
+Homework Week2
+86
+Score-End
+Score-Start
+3190000008
+Homework Week1
+86
+Score-End
+Score-Start
+3190000006
+Homework Week1
+77
+Score-End
+Score-Start
+3190000005
+Homework Week1
+69
+Score-End
+Score-Start
+3190000002
+Homework Week1
+89
 Score-End
 Course-End
-Application-Start
-Scholarship
-GPA higher than 4.0
+Course-Start
+FH88591
+C Program Development
+Students-Start
 4
 3190000001
-Rejected
+3190000002
 3190000003
-Accepted
 3190000004
-Rejected
-3190000007
-Rejected
-Application-End
+Students-End
+Score-Start
+3190000004
+Quiz 2
+98
+Score-End
+Score-Start
+3190000003
+Quiz 2
+92
+Score-End
+Score-Start
+3190000002
+Quiz 2
+77
+Score-End
+Score-Start
+3190000001
+Quiz 2
+86
+Score-End
+Score-Start
+3190000001
+Quiz 87
+83
+Score-End
+Score-Start
+3190000004
+Quiz 1
+86
+Score-End
+Score-Start
+3190000003
+Quiz 1
+77
+Score-End
+Score-Start
+3190000002
+Quiz 1
+69
+Score-End
+Score-Start
+3190000001
+Quiz 1
+89
+Score-End
+Course-End
 Application-Start
 Back to school
 Have done the Nucleic Acid Testing of Covid-19
@@ -209,5 +201,18 @@ Accepted
 Rejected
 3190000008
 Accepted
+Application-End
+Application-Start
+Scholarship
+GPA higher than 4.0
+4
+3190000001
+Rejected
+3190000003
+Accepted
+3190000004
+Rejected
+3190000007
+Rejected
 Application-End
 College-End

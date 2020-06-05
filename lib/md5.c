@@ -152,18 +152,22 @@ void MD5Transform(unsigned int state[4], unsigned char block[64]) {
     state[3] += d;
 }
 
-int md5check(char *origin_string, char *md5_string) {
-    MD5_CTX md5;
+char *md5(char *string) {
+	MD5_CTX md5;
     MD5Init(&md5);
     int i;
     unsigned char decrypt[16];
-    MD5Update(&md5, origin_string, strlen((char *)origin_string));
+    MD5Update(&md5, string, strlen((char *)string));
     MD5Final(&md5, decrypt);
     char md5string[33];
     for (i = 0; i < 16; ++i)
         sprintf(&md5string[i * 2], "%02x", (unsigned int)decrypt[i]);
+    
+    return md5string;
+}
 
-    if (strcmp(md5string, md5_string) == 0)
+int md5check(char *origin_string, char *md5_string) {
+    if (strcmp(md5(origin_string), md5_string) == 0)
         return 1;
     else
         return 0;

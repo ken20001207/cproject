@@ -7,8 +7,8 @@
 
 // Read File By line and remove '\n'
 char *getStringFromNewLine(FILE *fp) {
-    char *bufline = malloc(1024 * sizeof(char));
-    bufline = fgets(bufline, 1024, fp);
+    char *bufline = malloc(128 * sizeof(char));
+    bufline = fgets(bufline, 128, fp);
     bufline[strlen(bufline) - 1] = '\0';
     return bufline;
 }
@@ -21,7 +21,6 @@ struct College *college = NULL;
 // return 1: Read Successed
 int readData(FILE *fp) {
     if (fp == NULL) return 0;
-
     struct College *newCollege = malloc(sizeof(struct College));
     newCollege->applications = NULL;
     newCollege->classes = NULL;
@@ -73,6 +72,7 @@ int readData(FILE *fp) {
             // add into list
             if (tempClass->students == NULL) {
                 tempClass->students = stu_node;
+                tempClass->students->next = NULL;
             } else {
                 tempClass->students->prev = stu_node;
                 stu_node->next = tempClass->students;
@@ -84,6 +84,7 @@ int readData(FILE *fp) {
 
             if (newCollege->classes == NULL) {
                 newCollege->classes = cla_node;
+                newCollege->classes->next = NULL;
             } else {
                 newCollege->classes->prev = cla_node;
                 cla_node->next = newCollege->classes;
@@ -104,7 +105,8 @@ int readData(FILE *fp) {
             tempCourse->student_num = atoi(getStringFromNewLine(fp));
 
             // loop to get all student school number
-            char **students = malloc(tempCourse->student_num * (sizeof(char *)));
+            char **students =
+                malloc(tempCourse->student_num * (sizeof(char *)));
             int i = 0;
             for (i = 0; i < tempCourse->student_num; i++) {
                 students[i] = getStringFromNewLine(fp);
@@ -147,7 +149,8 @@ int readData(FILE *fp) {
                 newCollege->courses = cou_node;
             }
         } else if (strcmp("Application-Start", bufline) == 0) {
-            struct Application *newApplication = malloc(sizeof(struct Application));
+            struct Application *newApplication =
+                malloc(sizeof(struct Application));
 
             // load title of this application
             newApplication->title = getStringFromNewLine(fp);
@@ -159,8 +162,10 @@ int readData(FILE *fp) {
             newApplication->student_num = atoi(getStringFromNewLine(fp));
 
             // loop to get all applicants school number and status
-            char **applicants = malloc(newApplication->student_num * (sizeof(char *)));
-            char **statuses = malloc(newApplication->student_num * (sizeof(char *)));
+            char **applicants =
+                malloc(newApplication->student_num * (sizeof(char *)));
+            char **statuses =
+                malloc(newApplication->student_num * (sizeof(char *)));
             int i = 0;
             for (i = 0; i < newApplication->student_num; i++) {
                 applicants[i] = getStringFromNewLine(fp);
@@ -172,7 +177,8 @@ int readData(FILE *fp) {
             newApplication->statuses = statuses;
 
             // insert into application list
-            struct Application_node *app_node = malloc(sizeof(struct Application_node));
+            struct Application_node *app_node =
+                malloc(sizeof(struct Application_node));
             app_node->data = newApplication;
 
             if (newCollege->applications == NULL) {
@@ -292,6 +298,7 @@ int exportCollegeData(FILE *fp) {
 struct Student *getStudentBySchoolNumber(char *schoolnumber) {
     struct Class_node *curr_cla = college->classes;
     while (curr_cla != NULL) {
+        printf("%s\n", curr_cla->data->ClassID);
         struct Student_node *curr_stu = curr_cla->data->students;
         while (curr_stu != NULL) {
             if (strcmp(schoolnumber, curr_stu->data->schoolnumber) == 0) {
@@ -318,10 +325,35 @@ struct Class *getClassByID(char *class_id) {
 struct Course *getCourseByCode(char *course_code) {
     struct Course_node *curr_cou = college->courses;
     while (curr_cou != NULL) {
-        if (strcmp(course_code, curr_cou->data->code)) {
+        if (strcmp(course_code, curr_cou->data->code) == 0) {
             return curr_cou->data;
         }
         curr_cou = curr_cou->next;
     }
     return NULL;
+}
+
+struct Application *getApplicationByName(char *name) {
+    struct Application_node *curr_app = college->applications;
+    while (curr_app != NULL) {
+        if (strcmp(name, curr_app->data->title) == 0) {
+            return curr_app->data;
+        }
+        curr_app = curr_app->next;
+    }
+    return NULL;
+}
+
+int isSubmitApplication(char *application_name, char *school_number) {
+    struct Application *app = getApplicationByName(application_name);
+    if (app == NULL) return -1;
+
+    int i = 0;
+    for (i = 0; i < getApplicationByName(application_name)->student_num; i++) {
+        if (strcmp(app->applicants[i], school_number) == 0) {
+            return i;
+            break;
+        }
+    }
+    return -1;
 }

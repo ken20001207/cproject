@@ -1,6 +1,5 @@
 #include "total.h"
 
-#include "data.h"
 #include "general.h"
 
 struct Application *event_find(struct College *op, char *thetitle) {  //找到事项位置
